@@ -12,7 +12,7 @@ class Movimiento(object):
         '''
         Constructor de la clase Movimiento
         '''
-        self.monto = monto
+        self._monto = monto
         self.fecha = fecha
         self.idEstablecimiento = idEstablecimiento
     
@@ -20,7 +20,7 @@ class Movimiento(object):
         '''
         Get del atributo monto
         '''
-        return self.monto
+        return self._monto
 
 class Billetera(object):
     '''
@@ -47,11 +47,13 @@ class Billetera(object):
             saldo += movimiento.monto()
         for movimiento in self.debitos:
             saldo -= movimiento.monto()
+        return saldo
         
     def recargar(self, monto, fecha, idEstablecimiento):
         '''
         Metodo para recargar saldo en una billetera
         '''
+        assert (monto > 0), "Monto negativo"
         recarga = Movimiento(monto, fecha, idEstablecimiento)
         self.creditos.append(recarga)
     
@@ -63,9 +65,3 @@ class Billetera(object):
         assert(self.saldo() > monto), "Saldo insuficiente"
         consumo = Movimiento(monto, fecha, idEstablecimiento)
         self.debitos.append(consumo)
-    
-    
-    
-    
-    
-        
